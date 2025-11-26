@@ -88,6 +88,7 @@ Sistema feito em Java com persistência de dados em SQLite, com três componente
 
 ### Diretoria
 
+- recebe os datagramas num porto de escuta UDP passado na linha de comando
 - Gere a lista de servidores ativos, ordenada por ordem de registo (dos mais antigos para os mais novos)
 - Aguarda sempre envio de datagramas UDP no porto passado na linha de comandos
 - Quando recebe um heartbeat de um servidor não registado ignora-o
