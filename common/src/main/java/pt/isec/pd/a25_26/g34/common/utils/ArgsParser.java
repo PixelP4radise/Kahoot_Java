@@ -17,7 +17,7 @@ public class ArgsParser {
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
 
-            if (arg.startsWith("--")) {
+            if (arg.startsWith("-")) {
                 if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
                     parser.parameters.put(arg, args[i + 1]);
                 } else {
