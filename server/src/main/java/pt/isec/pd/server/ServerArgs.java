@@ -72,7 +72,7 @@ public class ServerArgs {
 
     @Override
     public String toString() {
-        return String.format("Dir[%s:%d] | BD[%s] | Multi[%s]",
+        return String.format("Directory Ip:Port[%s:%d] | BD Folder[%s] | Multicast Interface[%s]",
                 directoryIp, directoryPort, dbDirectory, multicastInterfaceIp);
     }
 }

@@ -16,7 +16,7 @@ public class ServerMain {
             return;
         }
 
-        Log.success(TAG, "Configuração carregada com sucesso");
+        Log.success(TAG, "Configuração carregada: " + config.toString());
         Log.debug("CONFIG", config.toString());
 
         try {
@@ -24,6 +24,7 @@ public class ServerMain {
 
 
         } catch (Exception e) {
+            Log.error(TAG, "Erro fatal no servidor");
             Log.error(TAG, e);
         }
     }
