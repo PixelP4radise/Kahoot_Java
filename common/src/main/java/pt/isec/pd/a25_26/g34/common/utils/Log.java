@@ -42,4 +42,10 @@ public class Log {
     public static void debug(String tag, String message) {
         print(CYAN, "DEBUG", tag, message);
     }
+
+    public static void error(String tag, Exception e) {
+        print(RED, "EXCEPTION", tag, e.toString());
+
+        e.printStackTrace();
+    }
 }
