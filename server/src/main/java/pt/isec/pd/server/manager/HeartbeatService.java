@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-public class HearbeatService {
+public class HeartbeatService {
     private static final String TAG = "HearbeatService";
 
     private final ServerContext context;
@@ -19,7 +19,7 @@ public class HearbeatService {
 
     private volatile boolean isRunning;
 
-    public HearbeatService(ServerContext context) {
+    public HeartbeatService(ServerContext context) {
         this.context = context;
         this.isRunning = false;
     }
