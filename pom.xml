@@ -55,6 +55,9 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
