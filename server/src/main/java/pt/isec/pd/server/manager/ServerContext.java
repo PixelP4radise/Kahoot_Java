@@ -66,4 +66,28 @@ public class ServerContext {
 
         Log.success(TAG, "Juntou-se ao grupo Multicast com sucesso");
     }
+
+    public ServerInfo getInfo() {
+        return serverInfo;
+    }
+
+    public ServerArgs getConfig() {
+        return config;
+    }
+
+    public long getDbVersion() {
+        return dbVersion;
+    }
+
+    public MulticastSocket getMulticastSocket() {
+        return multicastSocket;
+    }
+
+    public DatagramSocket getUnicastSocket() {
+        return unicastSocket;
+    }
+
+    public synchronized void incrementDbVersion() {
+        this.dbVersion++;
+    }
 }
