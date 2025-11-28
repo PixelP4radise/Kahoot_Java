@@ -25,8 +25,13 @@ public class HeartbeatService {
     }
 
     public void start() {
-        if (isRunning) return;
+        if (isRunning) {
+            Log.warn(TAG, "Tentativa de iniciar o serviço que já está a correr.");
+            return;
+        }
         this.isRunning = true;
+
+        Log.info(TAG, "A iniciar threads de comunicação...");
 
         listenerThread = new Thread(new ListeningTask(), "Hb-Listener");
         listenerThread.start();
@@ -38,15 +43,27 @@ public class HeartbeatService {
     }
 
     public void stop() {
+        if (!isRunning) return;
         isRunning = false;
-        if (senderThread != null) senderThread.interrupt();
-        if (listenerThread != null) listenerThread.interrupt();
-        Log.info(TAG, "A parar serviço de Heartbeats...");
+
+        Log.info(TAG, "A parar threads...");
+
+        if (senderThread != null) {
+            senderThread.interrupt();
+            Log.debug(TAG, "Interrupção enviada para Hb-Sender.");
+        }
+        if (listenerThread != null) {
+            listenerThread.interrupt();
+            Log.debug(TAG, "Interrupção enviada para Hb-Listener.");
+        }
+
+        Log.info(TAG, "Serviço parado.");
     }
 
     private class ListeningTask implements Runnable {
         @Override
         public void run() {
+            Log.debug(TAG, "ListeningTask iniciada na thread: " + Thread.currentThread().getName());
             byte[] buffer = new byte[4096];
             while (isRunning) {
                 try {
@@ -58,31 +75,35 @@ public class HeartbeatService {
 
                     if (isMyOwnHeartbeat(hb.serverInfo())) continue;
 
-                    Log.info(TAG, "Recebido de " + hb.serverInfo().ip() + " (v" + hb.dbVersion() + ")");
+                    Log.info(TAG, "Recebido de " + hb.serverInfo().ip() + ":" + hb.serverInfo().udpPort() +
+                            " (v" + hb.dbVersion() + ")");
                 } catch (IOException e) {
                     if (isRunning) Log.error(TAG, "Erro I/O Listener: " + e.getMessage());
                 } catch (ClassNotFoundException e) {
                     Log.error(TAG, "Pacote desconhecido recebido.");
                 }
             }
+            Log.debug(TAG, "ListeningTask terminada.");
         }
     }
 
     private class SendingTask implements Runnable {
         @Override
         public void run() {
+            Log.debug(TAG, "SendingTask iniciada na thread: " + Thread.currentThread().getName());
             while (isRunning) {
                 try {
                     sendHeartbeatPulse();
 
                     Thread.sleep(Constants.HEARTBEAT_INTERVAL_MS);
                 } catch (InterruptedException e) {
-                    Log.debug(TAG, "Sender interrompido.");
+                    Log.debug(TAG, "Sender interrompido (Shutdown).");
                     return;
                 } catch (Exception e) {
-                    Log.error(TAG, "Erro no envio: " + e.getMessage());
+                    Log.error(TAG, "Erro no ciclo de envio: " + e.getMessage());
                 }
             }
+            Log.debug(TAG, "SendingTask terminada.");
         }
     }
 
