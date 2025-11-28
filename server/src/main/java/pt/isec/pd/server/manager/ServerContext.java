@@ -26,7 +26,7 @@ public class ServerContext {
         this.dbVersion = 0;
     }
 
-    public void initialize(ServerArgs config) throws IOException {
+    public void initialize() throws IOException {
         Log.info(TAG, "A inicializar recursos de rede...");
 
         this.tcpClientSocket = new ServerSocket(0);
